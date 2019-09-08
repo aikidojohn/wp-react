@@ -1,0 +1,21 @@
+{
+  "name": "using-wordpress-with-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "<tgsmith489@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build app.js styles/*.css",
+    "watch": "parcel watch app.js styles/*.css components/*.js"
+  },
+  "dependencies": {
+    "bulma": "^0.7.2",
+    "parcel": "^1.11.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.7.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "whatwg-fetch": "^3.0.0"
+  }
+}

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+npm run build
+cp index.php dist/index.php
+cp functions.php dist/functions.php
+cp style.css dist/style.css

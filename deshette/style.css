@@ -1,0 +1,40 @@
+/*
+Theme Name: Deshette Theme
+Theme URI: https://deshette.com
+Author: John Hite
+Author URI: https://deshette.com
+Description: WordPress theme for Deshette blog
+Version: 1.0.0
+License: Comercial 
+*/
+body.logged-in.admin-bar #mainNav {
+    margin-top: 32px;
+}
+
+.current-menu-item {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 782px) {
+    body.logged-in.admin-bar #mainNav {
+        margin-top: 46px;
+    }
+}
+
+.home .post-preview.post {
+    overflow: hidden;
+}
+
+/* hide mediajs controles */
+.mejs-container .mejs-controls .mejs-layers {
+    display: none !important;
+}
+
+header.masthead .videobg {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
