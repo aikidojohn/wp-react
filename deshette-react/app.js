@@ -24,48 +24,59 @@ class App extends Component {
     super(props);
     console.log("app constructed")
     this.state = {
-      siteName: "",
-      siteDescription: "",
-      pageMap: {}
+      meta: {
+        siteName: "",
+        siteDescription: "",
+        siteMap: []
+      }
     }
   }
 
   componentDidMount(){
+    console.log("mounting app")
     window.fetch('/wp-json?_fields=name,description')
           .then((response) => {
               return response.json();
           }).then((json) => {
               console.log('parsed json', json);
+              let oldMeta = this.state.meta;
               this.setState({
+                meta: {
                   siteName: json.name,
                   siteDescription: json.description,
+                  siteMap: oldMeta.siteMap
+                }
               });
           }).catch(function(ex) {
               console.log('parsing failed', ex);
           });
-    /*window.fetch('/wp-json/wp/v2/pages?')
+    window.fetch('/wp-json/wp/v2/pages?_fields=slug')
           .then((response) => {
               return response.json();
           }).then((json) => {
               console.log('parsed json', json);
+              let oldMeta = this.state.meta;
               this.setState({
-                  page: json[0]
+                  meta: {
+                    siteName: oldMeta.siteName,
+                    siteDescription: oldMeta.siteDescription,
+                    siteMap: json.map(p => p.slug)
+                  }
               });
           }).catch(function(ex) {
               console.log('parsing failed', ex);
-          });*/
+          });
   }
 
   render() {
     return (
       <Router>
       <div>
-        <Header siteName={this.state.siteName} siteDescription={this.state.siteDescription}/>
+        <Header meta={this.state.meta}/>
         <section className="section container content">
           <Switch>
           <Route exact path="/" component={PostList} />
-          <Route exact path="/posts/:slug" component={PostView} />
-          <Route exact path="/:slug" component={PageView} />
+          <Route path="/:slug" render={(props) => <PageView {...props} meta={this.state.meta} />} />
           </Switch>
         </section>
       </div>

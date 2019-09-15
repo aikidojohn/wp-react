@@ -37,7 +37,7 @@ class Header extends Component {
           <div className="navbar-brand">
             <p className="is-size-3">
               <Link to="/" className="has-text-white">
-                {this.props.siteName}
+                {this.props.meta.siteName}
               </Link>
             </p>
 

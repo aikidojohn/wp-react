@@ -33,7 +33,7 @@ class PostList extends Component {
         return(
             <div>
                 {this.state.posts.map(post=>(
-                    <Link to={`/posts/${post.slug}`} key={post.id}>
+                    <Link to={`${post.slug}`} key={post.id}>
                         <div className="card" key={post.id}>
                             <div className="card-content">
                                 <h3>{post.title.rendered}</h3>

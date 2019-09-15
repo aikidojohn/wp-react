@@ -7,7 +7,6 @@ class PageView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: {}
         }
         this.createMarkup = this.createMarkup.bind();
     }
@@ -15,7 +14,9 @@ class PageView extends Component {
     componentDidMount() {
         console.log("mounted pageview");
         const slug = this.props.match.params.slug;
-        window.fetch(`/wp-json/wp/v2/pages?slug=${slug}`)
+        if (this.props.meta.siteMap.includes(slug)) {
+            console.log("rendering page");
+            window.fetch(`/wp-json/wp/v2/pages?slug=${slug}&_fields=title,content`)
             .then((response) => {
                 return response.json();
             }).then((json) => {
@@ -26,10 +27,57 @@ class PageView extends Component {
             }).catch(function(ex) {
                 console.log('parsing failed', ex);
             });
+        }
+        else {
+            console.log("rendering post");
+            window.fetch(`/wp-json/wp/v2/posts?slug=${slug}&_fields=title,content`)
+                .then((response) => {
+                    return response.json();
+                }).then((posts) => {
+                    console.log('parsed json', posts);
+                    this.setState({
+                        page: posts[0]
+                    });
+                }).catch(function(ex) {
+                    console.log('parsing failed', ex);
+                });
+        }
     }
 
     componentDidUpdate() {
         console.log("Component Update");
+        if(this.state.page) {
+            return;
+        }
+        const slug = this.props.match.params.slug;
+        if (this.props.meta.siteMap.includes(slug)) {
+            console.log("rendering page");
+            window.fetch(`/wp-json/wp/v2/pages?slug=${slug}&_fields=title,content`)
+            .then((response) => {
+                return response.json();
+            }).then((json) => {
+                console.log('parsed json', json);
+                this.setState({
+                    page: json[0]
+                });
+            }).catch(function(ex) {
+                console.log('parsing failed', ex);
+            });
+        }
+        else {
+            console.log("rendering post");
+            window.fetch(`/wp-json/wp/v2/posts?slug=${slug}&_fields=title,content`)
+                .then((response) => {
+                    return response.json();
+                }).then((posts) => {
+                    console.log('parsed json', posts);
+                    this.setState({
+                        page: posts[0]
+                    });
+                }).catch(function(ex) {
+                    console.log('parsing failed', ex);
+                });
+        }
     }
 
     createMarkup(html) {
