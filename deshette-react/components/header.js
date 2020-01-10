@@ -10,6 +10,7 @@ class Header extends Component {
     }
     this.getLocation = this.getLocation.bind();
     this.toggleHamburger = this.toggleHamburger.bind(this);
+    this.closeHamburger = this.closeHamburger.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +39,14 @@ class Header extends Component {
     this.setState( state => ({hamburgerActive: !state.hamburgerActive}));
   }
 
+  closeHamburger(e) {
+    //e.preventDefault();
+    console.log("closing menu");
+    this.setState( state => ({hamburgerActive: false}));
+  }
+
   render() {
+    var comp = this;
     var menuClass = this.state.hamburgerActive ? "navbar-menu is-active" : "navbar-menu";
     return (
       <nav className="navbar is-primary">
@@ -58,8 +66,9 @@ class Header extends Component {
           </div>
           <div id="navbarBasicExample" className={menuClass}>
             <div className="navbar-start">
+              
               {this.state.menuItems.map(menu=>( 
-                <Link to={`${this.getLocation(menu.url).pathname}`} className="navbar-item">
+                <Link to={`${this.getLocation(menu.url).pathname}`} className="navbar-item" onClick={comp.closeHamburger}>
                   {menu.title}
                 </Link>
               ))}
