@@ -5,9 +5,11 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        menuItems: []
+        menuItems: [],
+        hamburgerActive: false
     }
     this.getLocation = this.getLocation.bind();
+    this.toggleHamburger = this.toggleHamburger.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +32,14 @@ class Header extends Component {
     return l;
   }
 
+  toggleHamburger(e) {
+    e.preventDefault();
+    console.log("toggling menu");
+    this.setState( state => ({hamburgerActive: !state.hamburgerActive}));
+  }
+
   render() {
+    var menuClass = this.state.hamburgerActive ? "navbar-menu is-active" : "navbar-menu";
     return (
       <nav className="navbar is-primary">
         <div className="container has-text-centered">
@@ -41,13 +50,13 @@ class Header extends Component {
               </Link>
             </p>
 
-            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={this.toggleHamburger}>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
           </div>
-          <div id="navbarBasicExample" className="navbar-menu">
+          <div id="navbarBasicExample" className={menuClass}>
             <div className="navbar-start">
               {this.state.menuItems.map(menu=>( 
                 <Link to={`${this.getLocation(menu.url).pathname}`} className="navbar-item">
